@@ -1,6 +1,5 @@
 node_modules/
 output/
-session/
 *.log
 .DS_Store
 

@@ -1,6 +1,7 @@
 import { chromium } from 'patchright';
 import fs from 'fs';
 import { join } from 'path';
+
 import { extractCarDetails } from './extractor.js';
 
 // 出力先ディレクトリを作成（存在しない場合は再帰的に作成）
@@ -50,7 +51,7 @@ async function handleConsentModal(page) {
     // Try all selectors at once with shorter timeout
     const selectorString = selectors.join(', ');
     const btn = await page.locator(selectorString).first().waitFor({ state: 'visible', timeout: 2000 }).catch(() => null);
-    
+
     if (btn) {
       console.log('Found consent button, clicking...');
       await page.locator(selectorString).first().click();
@@ -76,36 +77,41 @@ async function handleConsentModal(page) {
     viewport: null
   });
 
-  // DEBUG: load just 1 car
-  for (const car of carList.slice(0, 1)) {
+  for (const car of carList) {
     const detailPage = await browser.newPage();
     try {
       console.log(`\n🚗 Processing: ${car.car_name}`);
       console.log(`📍 URL: ${car.detail_url}`);
-      
-      console.log('📄 Navigating to page...');
-      await detailPage.goto(car.detail_url, {waitUntil: 'domcontentloaded' });
-      console.log('✅ Page loaded');
-      
-      // wait 2-5 seconds
-      await sleep(2000 + Math.random() * 3000);
-      console.log('⏱️  Wait completed');
+
+      // Remove any existing lang parameter from the URL
+      car.detail_url = car.detail_url.replace(/&lang=[a-zA-Z-]+/, '');
+
+      await detailPage.goto(car.detail_url + '&lang=en', { waitUntil: 'domcontentloaded' });
 
       // GDPRバナー処理（初回アクセス時のみ必要、セッション保存により再利用）
-      console.log('🍪 Checking for consent modal...');
-      await handleConsentModal(detailPage);
+      // await handleConsentModal(detailPage);
 
       // 車の詳細情報を抽出
       console.log('🔍 Starting data extraction...');
       const details = await extractCarDetails(detailPage);
+      
+      // Check if vehicle is unavailable
+      if (details.error === 'VEHICLE_UNAVAILABLE') {
+        console.log('🚨 Vehicle is no longer available, skipping...');
+        continue;
+      }
+      
       const results = { ...car, ...details };
+      
+      // Append to CSV file - convert single object to row string
+      const values = HEADERS.map(header => {
+        const value = results[header] || '';
+        return typeof value === 'string' ? `"${value.replace(/"/g, '""')}"` : value;
+      });
+      const resultString = values.join(',');
+      fs.appendFileSync(filename, resultString + '\n');
 
-      console.log('\n📋 Final results:');
-      console.log(results)
-
-      // Take a screenshot
-      const screenshotFile = join(outputDir, `screenshot_${car.car_name}_${Date.now()}.png`);
-      await detailPage.screenshot({ path: screenshotFile, fullPage: true });
+      console.log('✅ Data extraction complete');
     } catch (e) {
       console.error(e);
       if (detailPage) {
@@ -120,6 +126,5 @@ async function handleConsentModal(page) {
   }
   await browser.close();
 }
-
 
 )();

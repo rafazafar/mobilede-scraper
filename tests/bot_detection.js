@@ -12,10 +12,10 @@ import { chromium } from 'patchright'
     const page = await browser.newPage();
     await page.goto('https://bot.sannysoft.com/');
     // take a screenshot
-    await page.screenshot({ path: 'bot_detection.png', fullPage: true });
+    await page.screenshot({ path: './bot_detection.png', fullPage: true });
 
     await page.goto('https://bot-detector.rebrowser.net/');
-    await page.screenshot({ path: 'bot_detection2.png', fullPage: true });
+    await page.screenshot({ path: './bot_detection2.png', fullPage: true });
 
     await browser.close();
 })();

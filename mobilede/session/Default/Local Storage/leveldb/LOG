@@ -1,0 +1,14 @@
+2025/08/29-12:28:46.736 1290a82 Reusing MANIFEST /Users/rafazafar/dev/mobilede-scraper/mobilede/session/Default/Local Storage/leveldb/MANIFEST-000001
+2025/08/29-12:28:46.738 1290a82 Recovering log #9
+2025/08/29-12:28:46.738 1290a82 Reusing old log /Users/rafazafar/dev/mobilede-scraper/mobilede/session/Default/Local Storage/leveldb/000009.log 
+2025/08/29-12:29:54.547 1290a84 Level-0 table #12: started
+2025/08/29-12:29:54.552 1290a84 Level-0 table #12: 27833 bytes OK
+2025/08/29-12:29:54.555 1290a84 Delete type=0 #9
+2025/08/29-12:29:54.558 1290a84 Compacting 4@0 + 0@1 files
+2025/08/29-12:29:54.560 1290a84 Generated table #13@0: 60 keys, 15646 bytes
+2025/08/29-12:29:54.560 1290a84 Compacted 4@0 + 0@1 files => 15646 bytes
+2025/08/29-12:29:54.561 1290a84 compacted to: files[ 0 1 0 0 0 0 0 ]
+2025/08/29-12:29:54.562 1290a84 Delete type=2 #3
+2025/08/29-12:29:54.562 1290a84 Delete type=2 #7
+2025/08/29-12:29:54.562 1290a84 Delete type=2 #12
+2025/08/29-12:29:54.563 1290a84 Delete type=2 #9
