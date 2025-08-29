@@ -1,6 +1,0 @@
-2025/08/29-12:43:45.545 129fb35 Reusing MANIFEST /Users/rafazafar/dev/mobilede-scraper/.../Default/Local Storage/leveldb/MANIFEST-000001
-2025/08/29-12:43:45.547 129fb35 Recovering log #3
-2025/08/29-12:43:45.548 129fb35 Reusing old log /Users/rafazafar/dev/mobilede-scraper/.../Default/Local Storage/leveldb/000003.log 
-2025/08/29-12:43:51.959 129fb37 Level-0 table #5: started
-2025/08/29-12:43:51.962 129fb37 Level-0 table #5: 15872 bytes OK
-2025/08/29-12:43:51.967 129fb37 Delete type=0 #3
