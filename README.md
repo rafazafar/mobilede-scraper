@@ -13,3 +13,9 @@
     ```bash
     node mobilede/main.js
     ```
+
+## Headless Bot Testing
+
+```bash
+node tests/bot_detection.js
+```
