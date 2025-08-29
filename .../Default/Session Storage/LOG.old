@@ -1,2 +1,3 @@
-2025/08/29-12:42:46.967 129e93c Creating DB /Users/rafazafar/dev/mobilede-scraper/.../Default/Session Storage since it was missing.
-2025/08/29-12:42:46.972 129e93c Reusing MANIFEST /Users/rafazafar/dev/mobilede-scraper/.../Default/Session Storage/MANIFEST-000001
+2025/08/29-12:43:45.723 129fb35 Reusing MANIFEST /Users/rafazafar/dev/mobilede-scraper/.../Default/Session Storage/MANIFEST-000001
+2025/08/29-12:43:45.725 129fb35 Recovering log #3
+2025/08/29-12:43:45.726 129fb35 Reusing old log /Users/rafazafar/dev/mobilede-scraper/.../Default/Session Storage/000003.log 

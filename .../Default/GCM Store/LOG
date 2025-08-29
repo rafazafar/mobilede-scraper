@@ -1,2 +1,3 @@
-2025/08/29-12:42:49.711 129e8f3 Creating DB /Users/rafazafar/dev/mobilede-scraper/.../Default/GCM Store since it was missing.
-2025/08/29-12:42:49.720 129e8f3 Reusing MANIFEST /Users/rafazafar/dev/mobilede-scraper/.../Default/GCM Store/MANIFEST-000001
+2025/08/29-13:08:42.198 12a94ec Reusing MANIFEST /Users/rafazafar/dev/mobilede-scraper/.../Default/GCM Store/MANIFEST-000001
+2025/08/29-13:08:42.199 12a94ec Recovering log #3
+2025/08/29-13:08:42.229 12a94ec Reusing old log /Users/rafazafar/dev/mobilede-scraper/.../Default/GCM Store/000003.log 
