@@ -4,6 +4,7 @@ output/
 .DS_Store
 
 # Outputs
+...
 mobilede/output/
 
 # Playwright
