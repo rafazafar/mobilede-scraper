@@ -72,7 +72,7 @@ async function handleConsentModal(page) {
   // ブラウザ起動（セッション情報を保持）
   const browser = await chromium.launchPersistentContext(sessionDir, {
     channel: "chrome",
-    headless: true,
+    headless: false,
     viewport: null
   });
 
@@ -103,6 +103,9 @@ async function handleConsentModal(page) {
       console.log('\n📋 Final results:');
       console.log(results)
 
+      // Take a screenshot
+      const screenshotFile = join(outputDir, `screenshot_${car.car_name}_${Date.now()}.png`);
+      await detailPage.screenshot({ path: screenshotFile, fullPage: true });
     } catch (e) {
       console.error(e);
       if (detailPage) {

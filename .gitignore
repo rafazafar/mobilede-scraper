@@ -4,6 +4,9 @@ session/
 *.log
 .DS_Store
 
+# Outputs
+mobilede/output/
+
 # Playwright
 /test-results/
 /playwright-report/
