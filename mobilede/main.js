@@ -8,9 +8,9 @@ import { extractCarDetails } from './extractor.js';
 const outputDir = new URL('./output', import.meta.url).pathname;
 if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 
-// セッション保存ディレクトリを作成
-const sessionDir = new URL('./session', import.meta.url).pathname;
-if (!fs.existsSync(sessionDir)) fs.mkdirSync(sessionDir, { recursive: true });
+// // セッション保存ディレクトリを作成
+// const sessionDir = new URL('./session', import.meta.url).pathname;
+// if (!fs.existsSync(sessionDir)) fs.mkdirSync(sessionDir, { recursive: true });
 
 // 収集対象のデータ項目を定義
 const HEADERS = [
@@ -48,7 +48,7 @@ async function handleConsentModal(page) {
       '[class*="cookie"] button'
     ];
 
-    // Try all selectors at once with shorter timeout
+    // より短いタイムアウトで全てのセレクタを一度に試す
     const selectorString = selectors.join(', ');
     const btn = await page.locator(selectorString).first().waitFor({ state: 'visible', timeout: 2000 }).catch(() => null);
 
@@ -65,37 +65,38 @@ async function handleConsentModal(page) {
 }
 
 (async () => {
-  // Create a new empty output CSV file
+  // 新しい空の出力CSVファイルを作成する
   const headerRow = HEADERS.join(',');
   const filename = new URL(`./output/mobilede_output_${Date.now()}.csv`, import.meta.url).pathname;
   fs.writeFileSync(filename, headerRow + '\n');
 
   // ブラウザ起動（セッション情報を保持）
-  const browser = await chromium.launchPersistentContext(sessionDir, {
+  const browser = await chromium.launchPersistentContext('...', {
     channel: "chrome",
     headless: false,
     viewport: null
+    // DO NOT ADD CUSTOM BROWSER HEADERS!
   });
 
   for (const car of carList) {
     const detailPage = await browser.newPage();
     try {
-      console.log(`\n🚗 Processing: ${car.car_name}`);
-      console.log(`📍 URL: ${car.detail_url}`);
+      console.log(`\n🚗 Processing: ${car.car_name} : ${car.detail_url}`);
 
-      // Remove any existing lang parameter from the URL
+      // URLから既存のlangパラメータを削除する
       car.detail_url = car.detail_url.replace(/&lang=[a-zA-Z-]+/, '');
 
       await detailPage.goto(car.detail_url + '&lang=en', { waitUntil: 'domcontentloaded' });
 
+      // wait 2-4 seconds
+      await sleep(2000 + Math.random() * 2000);
+
       // GDPRバナー処理（初回アクセス時のみ必要、セッション保存により再利用）
-      // await handleConsentModal(detailPage);
+      await handleConsentModal(detailPage);
 
       // 車の詳細情報を抽出
       console.log('🔍 Starting data extraction...');
       const details = await extractCarDetails(detailPage);
-      
-      // Check if vehicle is unavailable
       if (details.error === 'VEHICLE_UNAVAILABLE') {
         console.log('🚨 Vehicle is no longer available, skipping...');
         continue;
@@ -103,7 +104,7 @@ async function handleConsentModal(page) {
       
       const results = { ...car, ...details };
       
-      // Append to CSV file - convert single object to row string
+      // CSVファイルへの追加 - 単一オブジェクトを行文字列に変換
       const values = HEADERS.map(header => {
         const value = results[header] || '';
         return typeof value === 'string' ? `"${value.replace(/"/g, '""')}"` : value;

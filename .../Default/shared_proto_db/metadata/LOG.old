@@ -1,3 +1,2 @@
-2025/08/29-11:54:40.334 1277e32 Reusing MANIFEST /Users/rafazafar/dev/mobilede-scraper/.../Default/shared_proto_db/metadata/MANIFEST-000001
-2025/08/29-11:54:40.334 1277e32 Recovering log #3
-2025/08/29-11:54:40.334 1277e32 Reusing old log /Users/rafazafar/dev/mobilede-scraper/.../Default/shared_proto_db/metadata/000003.log 
+2025/08/29-12:42:47.165 129e8fc Creating DB /Users/rafazafar/dev/mobilede-scraper/.../Default/shared_proto_db/metadata since it was missing.
+2025/08/29-12:42:47.173 129e8fc Reusing MANIFEST /Users/rafazafar/dev/mobilede-scraper/.../Default/shared_proto_db/metadata/MANIFEST-000001

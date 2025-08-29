@@ -1,3 +1,2 @@
-2025/08/29-11:54:39.934 1277e27 Reusing MANIFEST /Users/rafazafar/dev/mobilede-scraper/.../Default/Sync Data/LevelDB/MANIFEST-000001
-2025/08/29-11:54:39.944 1277e27 Recovering log #3
-2025/08/29-11:54:39.945 1277e27 Reusing old log /Users/rafazafar/dev/mobilede-scraper/.../Default/Sync Data/LevelDB/000003.log 
+2025/08/29-12:42:46.747 129e8f2 Creating DB /Users/rafazafar/dev/mobilede-scraper/.../Default/Sync Data/LevelDB since it was missing.
+2025/08/29-12:42:46.769 129e8f2 Reusing MANIFEST /Users/rafazafar/dev/mobilede-scraper/.../Default/Sync Data/LevelDB/MANIFEST-000001
