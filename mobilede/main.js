@@ -1,6 +1,7 @@
 import { chromium } from 'patchright';
 import fs from 'fs';
 import { join } from 'path';
+import pLimit from 'p-limit';
 
 import { extractCarDetails } from './extractor.js';
 
@@ -27,6 +28,10 @@ const HEADERS = [
 
 // 車リスト（スクレイピング対象URL群）をJSONから読み込み
 const carList = JSON.parse(fs.readFileSync(new URL('./input/car_urls.json', import.meta.url), 'utf8'));
+
+// Processing configuration
+const CONCURRENT_PROCESSING = true; // Set to false for sequential processing
+const MAX_CONCURRENT_PAGES = 10; // Limit concurrent pages to avoid overwhelming the server
 
 // スリープ関数
 function sleep(ms) {
@@ -64,7 +69,59 @@ async function handleConsentModal(page) {
   }
 }
 
+
+// Process a single car
+async function processCar(browser, car, filename) {
+  const detailPage = await browser.newPage();
+  try {
+    console.log(`\n🚗 Processing: ${car.car_name} : ${car.detail_url}`);
+
+    // URLから既存のlangパラメータを削除する
+    car.detail_url = car.detail_url.replace(/&lang=[a-zA-Z-]+/, '');
+
+    await detailPage.goto(car.detail_url + '&lang=en', { waitUntil: 'domcontentloaded' });
+
+    // wait 2-4 seconds
+    await sleep(2000 + Math.random() * 2000);
+
+    // GDPRバナー処理（初回アクセス時のみ必要、セッション保存により再利用）
+    await handleConsentModal(detailPage);
+
+    // 車の詳細情報を抽出
+    console.log('🔍 Starting data extraction...');
+    const details = await extractCarDetails(detailPage);
+    if (details.error === 'VEHICLE_UNAVAILABLE') {
+      console.log('🚨 Vehicle is no longer available, skipping...');
+      return;
+    }
+    
+    const results = { ...car, ...details };
+    
+    // CSVファイルへの追加 - 単一オブジェクトを行文字列に変換
+    const values = HEADERS.map(header => {
+      const value = results[header] || '';
+      return typeof value === 'string' ? `"${value.replace(/"/g, '""')}"` : value;
+    });
+    const resultString = values.join(',');
+    fs.appendFileSync(filename, resultString + '\n');
+
+    console.log('✅ Data extraction complete');
+  } catch (e) {
+    console.error(e);
+    if (detailPage) {
+      // Take screenshot
+      const errorFile = join(outputDir, `fatal_error_${car.car_name}_${Date.now()}.png`);
+      await detailPage.screenshot({ path: errorFile, fullPage: true });
+    }
+  } finally {
+    await detailPage.close();
+  }
+}
+
 (async () => {
+  // Clear session
+  fs.rmSync('...', { recursive: true, force: true });
+
   // 新しい空の出力CSVファイルを作成する
   const headerRow = HEADERS.join(',');
   const filename = new URL(`./output/mobilede_output_${Date.now()}.csv`, import.meta.url).pathname;
@@ -73,58 +130,30 @@ async function handleConsentModal(page) {
   // ブラウザ起動（セッション情報を保持）
   const browser = await chromium.launchPersistentContext('...', {
     channel: "chrome",
-    headless: false,
+    headless: true,
     viewport: null
     // DO NOT ADD CUSTOM BROWSER HEADERS!
   });
 
-  for (const car of carList) {
-    const detailPage = await browser.newPage();
-    try {
-      console.log(`\n🚗 Processing: ${car.car_name} : ${car.detail_url}`);
+  console.log(`\n🔧 Processing mode: ${CONCURRENT_PROCESSING ? 'CONCURRENT' : 'SEQUENTIAL'}`);
+  if (CONCURRENT_PROCESSING) {
+    console.log(`📊 Max concurrent pages: ${MAX_CONCURRENT_PAGES}`);
+  }
 
-      // URLから既存のlangパラメータを削除する
-      car.detail_url = car.detail_url.replace(/&lang=[a-zA-Z-]+/, '');
-
-      await detailPage.goto(car.detail_url + '&lang=en', { waitUntil: 'domcontentloaded' });
-
-      // wait 2-4 seconds
-      await sleep(2000 + Math.random() * 2000);
-
-      // GDPRバナー処理（初回アクセス時のみ必要、セッション保存により再利用）
-      await handleConsentModal(detailPage);
-
-      // 車の詳細情報を抽出
-      console.log('🔍 Starting data extraction...');
-      const details = await extractCarDetails(detailPage);
-      if (details.error === 'VEHICLE_UNAVAILABLE') {
-        console.log('🚨 Vehicle is no longer available, skipping...');
-        continue;
-      }
-      
-      const results = { ...car, ...details };
-      
-      // CSVファイルへの追加 - 単一オブジェクトを行文字列に変換
-      const values = HEADERS.map(header => {
-        const value = results[header] || '';
-        return typeof value === 'string' ? `"${value.replace(/"/g, '""')}"` : value;
-      });
-      const resultString = values.join(',');
-      fs.appendFileSync(filename, resultString + '\n');
-
-      console.log('✅ Data extraction complete');
-    } catch (e) {
-      console.error(e);
-      if (detailPage) {
-        // Take screenshot
-        const errorFile = join(outputDir, `fatal_error_${car.car_name}_${Date.now()}.png`);
-        await detailPage.screenshot({ path: errorFile, fullPage: true });
-      }
-    }
-    finally {
-      await detailPage.close();
+  if (CONCURRENT_PROCESSING) {
+    // Concurrent processing with p-limit
+    const limit = pLimit(MAX_CONCURRENT_PAGES);
+    const promises = carList.map(car => 
+      limit(() => processCar(browser, car, filename))
+    );
+    await Promise.all(promises);
+  } else {
+    // Sequential processing (original behavior)
+    for (const car of carList) {
+      await processCar(browser, car, filename);
     }
   }
+
   await browser.close();
 }
 

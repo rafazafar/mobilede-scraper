@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
+    "p-limit": "^7.1.1",
     "patchright": "^1.52.5",
     "playwright-core": "1.52.0"
   },
