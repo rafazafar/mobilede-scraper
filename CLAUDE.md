@@ -4,42 +4,59 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a web scraping project that extracts car listing data from mobile.de (a German used car marketplace) using Playwright automation with Patchright for enhanced bot detection evasion.
+This is a web scraping project that extracts car listing data from mobile.de (a German used car marketplace) using Playwright automation with Patchright for enhanced bot detection evasion. The project uses modern ES modules and includes both JavaScript and TypeScript implementations.
 
 ## Core Architecture
 
-### Main Components
+### Dual Implementation Structure
 
-1. **Web Scraper** - `mobilede2.js`:
-   - Uses Patchright (Playwright with anti-detection patches)
-   - Extracts detailed car specifications from individual listing pages
-   - Implements consent modal handling and error recovery
-   - Outputs timestamped CSV files with comprehensive car data
+The project contains two main scraper implementations:
 
-2. **Configuration Files**:
-   - `car_urls.json` - Target car URLs with basic metadata (car_name, maker, price, image, detail_url)
-   - `socks4_socks5_proxies.txt` - JSON-formatted proxy data with health metrics
-   - `package.json` - Dependencies including patchright, playwright-core, csv processing libraries
+1. **JavaScript Implementation** (`mobilede/`):
+   - `main.js` - Standalone scraper with modern ES module path handling
+   - Self-contained with local input/output directories
+   - Uses `import.meta.url` for path resolution
 
-3. **Output Structure**:
-   - All scraped data saves to `./output/` directory (auto-created)
-   - CSV format with standardized 18-field schema
-   - Timestamped filenames: `mobilede_output_[timestamp].csv`
+2. **TypeScript Implementation** (`scrapers/mobilede/`):
+   - `mobilede2.ts` - TypeScript version with enhanced type safety
+   - Organized under structured `scrapers/` directory
+   - Shares project-level session and output directories
 
-### Data Schema
+### Modern ES Module Setup
 
-The scraper extracts these standardized fields from each car listing:
+- **Package Configuration**: `"type": "module"` enables native ES modules
+- **Path Handling**: Uses `import.meta.url` with URL constructor instead of `path.resolve()`
+- **Import Style**: Modern ES6 import/export syntax throughout
+- **TypeScript Support**: Full TypeScript configuration with `@types/node`
+
+### Session Management
+
+Both implementations use persistent browser sessions:
+- **Session Storage**: `./session/` (project root) or `./mobilede/session/` (local)
+- **Preserves**: Cookies, local storage, authentication state, GDPR consent
+- **Benefits**: Eliminates repeated consent modals, maintains consistent fingerprint
+- **Anti-Detection**: Persistent context reduces bot detection risk
+
+### Data Architecture
+
+**Standardized 18-field CSV schema:**
 - Basic info: `car_name`, `price`, `maker`, `image`, `detail_url`
 - Specifications: `first_registration`, `mileage`, `power`, `cubic_capacity`, `fuel`
 - Details: `transmission`, `drive_type`, `colour`, `number_of_seats`, `door_count`
 - Additional: `weight`, `cylinders`, `tank_capacity`
 
-### Key Technologies
+**Input/Output Structure:**
+- Input: JSON files containing car URLs and basic metadata
+- Output: Timestamped CSV files with comprehensive car data
+- Error handling: Screenshot capture on failures
 
-- **Patchright** - Anti-detection browser automation (enhanced Playwright)
-- **rebrowser-patches** - Additional bot detection evasion
-- **fast-csv & csv-parse** - CSV data processing
-- **https-proxy-agent** - Proxy support infrastructure
+## Key Technologies
+
+- **Patchright**: Anti-detection browser automation (enhanced Playwright fork)
+- **Playwright Core**: Browser automation foundation
+- **Modern Node.js**: ES modules, `import.meta.url`, async/await patterns
+- **TypeScript**: Type safety and enhanced developer experience
+- **CSV Libraries**: `fast-csv`, `csv-parse` for data processing
 
 ## Development Commands
 
@@ -47,55 +64,65 @@ The scraper extracts these standardized fields from each car listing:
 # Install dependencies
 npm install
 
-# Run the main scraper
-node mobilede2.js
+# Run JavaScript implementation
+node mobilede/main.js
+
+# Run TypeScript implementation (requires compilation)
+node scrapers/mobilede/mobilede2.ts
+
+# Development with TypeScript
+npx tsc scrapers/mobilede/mobilede2.ts --outDir dist --target es2022 --module esnext
 ```
 
-## Technical Implementation
+## Anti-Detection Implementation
 
-### Anti-Detection Strategy
-- Uses Patchright instead of standard Playwright for enhanced stealth
-- Persistent browser context with Chrome channel and session storage
-- Session persistence maintains cookies and login state between runs
-- Random delays (1-5 seconds) between requests
-- Consent modal detection with multiple selector fallbacks
-- Error handling with screenshot capture for debugging
+### Browser Configuration
+- Realistic user agent with German locale support
+- Proper viewport sizing (1920x1080)
+- German timezone (`Europe/Berlin`)
+- Comprehensive HTTP headers (`Accept-Language`, etc.)
 
-### Data Extraction Process
-1. Loads target URLs from `car_urls.json`
-2. Launches persistent Chrome browser context with session directory (`./session/`)
-3. For each car URL:
-   - Navigates to detail page with `networkidle` wait
-   - Handles consent modals (cookies stored in session for future runs)
-   - Extracts specifications using DOM traversal (`<dt>`/`<dd>` pairs)
-   - Appends data to timestamped CSV file
-   - Implements random delay before next request
-4. Captures error screenshots on failures
+### Navigation Strategy
+- Fallback navigation: `domcontentloaded` → `load` → timeout recovery
+- Extended timeouts with intelligent retry logic
+- Robust consent modal handling with multiple selector patterns
+- Human-like delays and interaction patterns
 
-### Session Management
-- Browser session data stored in `./session/` directory
-- Preserves cookies, local storage, and authentication state
-- Eliminates need to handle consent modals on subsequent runs
-- Maintains consistent browser fingerprint across sessions
-
-### Proxy Configuration
-- Proxy data stored in JSON format in `socks4_socks5_proxies.txt`
-- Includes health metrics (alive status, timeout, uptime percentages)
-- Currently configured for Japanese SOCKS4 proxies
-- Integration ready but not actively used in current scraper version
+### Session Persistence
+- Maintains consistent browser fingerprint across runs
+- Preserves authentication and preference states
+- Reduces detection through behavioral consistency
 
 ## File Structure
 
-- `mobilede2.js` - Main scraper implementation
-- `car_urls.json` - Input URLs and metadata (25 sample cars)
-- `socks4_socks5_proxies.txt` - Proxy configuration data
-- `session/` - Browser session data (cookies, local storage, login state)
-- `output/` - Generated CSV files and error screenshots
-- `package.json` - Node.js dependencies and configuration
+```
+mobilede-scraper/
+├── mobilede/                    # JavaScript implementation
+│   ├── main.js                 # Standalone scraper
+│   ├── input/car_urls.json     # Local input data
+│   ├── output/                 # Local CSV outputs
+│   └── session/                # Local browser session
+├── scrapers/mobilede/           # TypeScript implementation  
+│   ├── mobilede2.ts            # TypeScript scraper
+│   └── car_urls.json           # Input data
+├── session/                     # Shared browser session
+├── output/                      # Shared CSV outputs
+├── tests/                       # Test files
+└── package.json                # ES module configuration
+```
 
-## Error Handling
+## Error Handling & Debugging
 
-- Comprehensive try-catch blocks around page operations
-- Screenshots captured on fatal errors: `fatal_error_[car_name]_[timestamp].png`
-- Continues processing remaining cars even if individual requests fail
-- Network timeout handling with `networkidle` wait strategy
+- **Navigation Failures**: Multi-stage fallback with extended timeouts
+- **Screenshot Capture**: Automatic error state documentation
+- **Comprehensive Logging**: Detailed console output for debugging
+- **Graceful Degradation**: Continues processing on individual failures
+- **Session Recovery**: Persistent state reduces startup failures
+
+## Modern JavaScript Features
+
+- **ES Modules**: Native `import`/`export` with `"type": "module"`
+- **URL-based Paths**: `new URL('./path', import.meta.url)` instead of `path.resolve()`
+- **Async/Await**: Modern asynchronous patterns throughout
+- **Template Literals**: Enhanced string formatting and logging
+- **Destructuring**: Clean object/array manipulation

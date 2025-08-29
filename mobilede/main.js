@@ -1,13 +1,12 @@
 import { chromium } from 'patchright';
 import fs from 'fs';
-import path from 'path';
 
 // 出力先ディレクトリを作成（存在しない場合は再帰的に作成）
-const outputDir = path.resolve('./output');
+const outputDir = new URL('./output', import.meta.url).pathname;
 if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 
 // セッション保存ディレクトリを作成
-const sessionDir = path.resolve('./session');
+const sessionDir = new URL('./session', import.meta.url).pathname;
 if (!fs.existsSync(sessionDir)) fs.mkdirSync(sessionDir, { recursive: true });
 
 // 収集対象のデータ項目を定義
@@ -19,7 +18,7 @@ const HEADERS = [
 ];
 
 // 車リスト（スクレイピング対象URL群）をJSONから読み込み
-const carList = JSON.parse(fs.readFileSync('./car_urls.json', 'utf8'));
+const carList = JSON.parse(fs.readFileSync(new URL('./input/car_urls.json', import.meta.url), 'utf8'));
 
 // スリープ関数
 function sleep(ms) {
@@ -31,10 +30,10 @@ async function handleConsentModal(page) {
   try {
     // 少し待ってからモーダルを探す
     await sleep(2000);
-    
+
     const selectors = [
       'button[data-testid="uc-accept-all-button"]',
-      'button[aria-label="Accept all"]', 
+      'button[aria-label="Accept all"]',
       'button:has-text("Alle akzeptieren")',
       'button:has-text("Accept all")',
       'button:has-text("OK")',
@@ -43,7 +42,7 @@ async function handleConsentModal(page) {
       '[class*="consent"] button',
       '[class*="cookie"] button'
     ];
-    
+
     for (const sel of selectors) {
       try {
         const btn = await page.waitForSelector(sel, { timeout: 3000 });
@@ -101,70 +100,47 @@ async function extractCarDetails(page) {
 
 (async () => {
   // Create a new empty output CSV file
-  const results = [];
   const headerRow = HEADERS.join(',');
-  const filename = path.join(outputDir, `mobilede_output_${Date.now()}.csv`);
+  const filename = new URL(`./output/mobilede_output_${Date.now()}.csv`, import.meta.url).pathname;
   fs.writeFileSync(filename, headerRow + '\n');
 
   // ブラウザ起動（セッション情報を保持）
   const browser = await chromium.launchPersistentContext(sessionDir, {
     channel: "chrome",
     headless: false,
-    viewport: { width: 1920, height: 1080 },
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-    locale: 'en-US,en;q=0.9',
-    timezoneId: 'Europe/Berlin',
-    extraHTTPHeaders: {
-      'Accept-Language': 'en-US,en;q=0.9,de;q=0.8'
-    }
+    viewport: null
   });
-  
+
   // DEBUG: load just 1 car
   for (const car of carList.slice(0, 1)) {
     const detailPage = await browser.newPage();
     try {
-
-      // より柔軟なナビゲーション戦略を実装
-      console.log(`Navigating to: ${car.car_name} - ${car.detail_url}`);
-      
-      try {
-        await detailPage.goto(car.detail_url, { waitUntil: 'domcontentloaded', timeout: 60000 });
-        
-        // ページが完全に読み込まれるまで追加の待機
-        await detailPage.waitForLoadState('networkidle', { timeout: 30000 });
-      } catch (navError) {
-        console.warn(`Navigation timeout for ${car.car_name}, trying with basic load state...`);
-        await detailPage.goto(car.detail_url, { waitUntil: 'load', timeout: 45000 });
-        await detailPage.waitForTimeout(5000); // 追加の待機時間
-      }
+      await detailPage.goto(car.detail_url, {waitUntil: 'domcontentloaded' });
+      // wait 2-5 seconds
+      await sleep(2000 + Math.random() * 3000);
 
       // GDPRバナー処理（初回アクセス時のみ必要、セッション保存により再利用）
-      await handleConsentModal(detailPage);
-      
-      // ページが完全に表示されるまで少し待機
-      await detailPage.waitForTimeout(2000);
-
+      // await handleConsentModal(detailPage);
 
       // 車の詳細情報を抽出
       const details = await extractCarDetails(detailPage);
-      results.push({ ...car, ...details });
+      const results = { ...car, ...details };
 
-      console.log(car)
+      console.log(results)
 
     } catch (e) {
       console.error(e);
       if (detailPage) {
         // Take screenshot
-        const errorFile = path.join(outputDir, `fatal_error_${car.car_name}_${Date.now()}.png`);
+        const errorFile = join(outputDir, `fatal_error_${car.car_name}_${Date.now()}.png`);
         await detailPage.screenshot({ path: errorFile, fullPage: true });
       }
     }
     finally {
-      // sleep random 1-5 seconds
-      await new Promise(resolve => setTimeout(resolve, 10000 + Math.random() * 4000));
+      // await detailPage.close();
     }
   }
-  await browser.close();
+  // await browser.close();
 }
 
 
