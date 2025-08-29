@@ -1,0 +1,170 @@
+[
+  {
+    "car_name": "BMW i3",
+    "maker": "BMW",
+    "price": "€12,990",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/01/0189bffe-b3d3-4b23-952f-f34f924b82f7?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=370555488&action=topOfPage&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€16,999",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/ca/cafb5152-6a0f-4aa6-97b3-36b3b6ff913d?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=429884418&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€16,490",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/d9/d904ec98-c019-4fac-b680-a851e849a6ee?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=426260149&action=eyeCatcher&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Opel Astra",
+    "maker": "Opel",
+    "price": "€2,799",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/e0/e06a2ea3-16ca-4271-84da-0afab05f9804?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=393197513&action=topInCategory&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Audi A4",
+    "maker": "Audi",
+    "price": "€19,750",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/4c/4c62fac5-6ce9-4896-8a13-ff78ff8aa81d?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=430704816&action=topInCategory&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Polo",
+    "maker": "Volkswagen",
+    "price": "€18,440¹",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/7f/7f8bac02-7f51-4060-94cd-075471c8ffb2?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=422559897&action=topInCategory&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€18,990",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/ed/edba784c-4379-4f21-9d1b-67ae71c01ca8?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=428634354&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€24,998",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/15/15733cec-d5ed-4d4a-9beb-0f3c001f4eb6?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=429783976&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€25,800",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/ad/addbd852-3b51-4267-acb5-399dd856df14?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=421919309&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€15,990",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/34/34a54466-f39a-44f5-ae0f-6b9cc4cfd6d9?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=429106165&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€24,800",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/45/45567715-d1a8-44ed-9563-941054990c44?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=428568818&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€24,990",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/10/10e2ad51-5509-49a1-b9cf-7a44a0a14023?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=427555025&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€23,900",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/21/2128b327-b773-4136-b3be-4aaaf72335eb?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=423903813&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Caddy Maxi",
+    "maker": "Volkswagen",
+    "price": "€20,499",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/d6/d6ea3faf-1022-406e-98c3-31e6d5e84cf2?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=429563107&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Tiguan",
+    "maker": "Volkswagen",
+    "price": "€21,990",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/e3/e3d53750-e4ee-40e4-9a46-9b35d8ed465c?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=430082134&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€17,990",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/5f/5f1391e6-a344-46cb-8ced-c52f62878e53?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=426495364&action=eyeCatcher&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Mercedes-Benz GLA 250",
+    "maker": "Mercedes-Benz",
+    "price": "€18,950",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/5d/5df7acfe-f1ab-4d1d-8857-7f725648529e?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=427458987&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€14,990",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/f1/f150a5f7-90d8-4221-9ecf-eee60f379651?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=424231015&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Mercedes-Benz CLA 200",
+    "maker": "Mercedes-Benz",
+    "price": "€19,990",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/37/376b0d78-a42f-46bc-b71d-8d1a038cb4cf?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=418291649&action=eyeCatcher&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€28,870",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/b2/b21d05ed-386c-4bcb-b730-54452a3e256d?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=417352324&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€19,950",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/0a/0aab5eb4-e5bf-4953-8959-b52f764810b4?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=430149039&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Mercedes-Benz C 200",
+    "maker": "Mercedes-Benz",
+    "price": "€21,889",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/a2/a2a71cc5-4909-4314-9a95-1d02152bacf6?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=428762169&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Volkswagen Golf",
+    "maker": "Volkswagen",
+    "price": "€14,900",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/57/57c7a8df-85d8-4550-a447-f9d79a93f525?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=401913977&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  },
+  {
+    "car_name": "Mercedes-Benz CLA 250",
+    "maker": "Mercedes-Benz",
+    "price": "€23,990",
+    "image": "https://img.classistatic.de/api/v1/mo-prod/images/9f/9f6ab730-ad51-404a-9ce7-3064486f6970?rule=mo-160w",
+    "detail_url": "https://suchen.mobile.de/fahrzeuge/details.html?id=428662388&action=eyeCatcher&con=USED&dam=false&isSearchRequest=true&lang=en&ref=srp&refId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&s=Car&searchId=569dc890-9c08-c9e3-d386-a2c75e4fa80f&vc=Car"
+  }
+]
