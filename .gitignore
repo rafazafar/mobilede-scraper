@@ -6,6 +6,7 @@ output/
 # Outputs
 ...
 mobilede/output/
+tests/result/*
 
 # Playwright
 /test-results/

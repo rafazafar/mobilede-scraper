@@ -2,6 +2,19 @@
 import { chromium } from 'patchright'
 
 (async () => {
+
+    const botScannerUrls = [{
+        name: 'sannysoft',
+        url: 'https://bot.sannysoft.com/'},
+        {name: 'rebrowser', url: 'https://bot-detector.rebrowser.net/'},
+        {name: 'kaliiiiiiiiii', url: 'https://kaliiiiiiiiii.github.io/brotector/'},
+        {name: 'creepjs', url: 'https://abrahamjuliot.github.io/creepjs/'},
+        {name: 'fingerprint', url: 'https://fingerprint.com/products/bot-detection/'},
+        {name: 'iphey', url: 'https://iphey.com/'},
+        {name: 'pixelscan', url: 'https://pixelscan.net/fingerprint-check'},
+        {name: 'browserscan', url: 'https://browserscan.net/'}
+    ];
+
     const browser = await chromium.launchPersistentContext("...", {
         channel: "chrome",
         headless: true,
@@ -9,13 +22,16 @@ import { chromium } from 'patchright'
         userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
         // do NOT add custom browser headers
     });
-    const page = await browser.newPage();
-    await page.goto('https://bot.sannysoft.com/');
-    // take a screenshot
-    await page.screenshot({ path: './bot_detection.png', fullPage: true });
 
-    await page.goto('https://bot-detector.rebrowser.net/');
-    await page.screenshot({ path: './bot_detection2.png', fullPage: true });
+    // wait for all to finish
+    await Promise.all(botScannerUrls.map(async (url) => {
+        const page = await browser.newPage();
+        await page.goto(url.url);
+        await page.waitForTimeout(5000);
+        await page.screenshot({ path: `./tests/result/${url.name}.png`, fullPage: true });
+        await page.close();
+    }));
 
-    await browser.close();
+    await browser.close();    
+    process.exit(0);
 })();
