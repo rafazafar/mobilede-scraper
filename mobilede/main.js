@@ -1,5 +1,7 @@
 import { chromium } from 'patchright';
 import fs from 'fs';
+import { join } from 'path';
+import { extractCarDetails } from './extractor.js';
 
 // 出力先ディレクトリを作成（存在しない場合は再帰的に作成）
 const outputDir = new URL('./output', import.meta.url).pathname;
@@ -14,7 +16,12 @@ const HEADERS = [
   'car_name', 'price', 'maker', 'image', 'detail_url',
   'first_registration', 'mileage', 'power', 'cubic_capacity', 'fuel',
   'transmission', 'drive_type', 'colour', 'number_of_seats',
-  'door_count', 'weight', 'cylinders', 'tank_capacity'
+  'door_count', 'weight', 'cylinders', 'tank_capacity',
+  'condition', 'category', 'availability', 'origin', 'battery_capacity',
+  'battery_status', 'plug_types', 'co2_emissions', 'environmental_badge',
+  'hu', 'air_conditioning', 'parking_assist', 'airbags',
+  'manufacturer_color', 'interior', 'features', 'description',
+  'dealer_name', 'dealer_address', 'dealer_rating', 'price_evaluation', 'images'
 ];
 
 // 車リスト（スクレイピング対象URL群）をJSONから読み込み
@@ -28,9 +35,6 @@ function sleep(ms) {
 //Cookieバナーや同意ダイアログを処理する
 async function handleConsentModal(page) {
   try {
-    // 少し待ってからモーダルを探す
-    await sleep(2000);
-
     const selectors = [
       'button[data-testid="uc-accept-all-button"]',
       'button[aria-label="Accept all"]',
@@ -43,59 +47,20 @@ async function handleConsentModal(page) {
       '[class*="cookie"] button'
     ];
 
-    for (const sel of selectors) {
-      try {
-        const btn = await page.waitForSelector(sel, { timeout: 3000 });
-        if (btn && await btn.isVisible()) {
-          console.log(`Found consent button with selector: ${sel}`);
-          await btn.click();
-          await sleep(1500 + Math.random() * 1000);
-          return;
-        }
-      } catch (e) {
-        // このセレクタでは見つからなかった、次のセレクタを試す
-        continue;
-      }
+    // Try all selectors at once with shorter timeout
+    const selectorString = selectors.join(', ');
+    const btn = await page.locator(selectorString).first().waitFor({ state: 'visible', timeout: 2000 }).catch(() => null);
+    
+    if (btn) {
+      console.log('Found consent button, clicking...');
+      await page.locator(selectorString).first().click();
+      await sleep(500);
+    } else {
+      console.log('No consent modal found');
     }
-    console.log('No consent modal found');
   } catch (e) {
     console.log('Error in consent modal handling:', e.message);
   }
-}
-
-// ページから車両情報を抽出
-async function extractCarDetails(page) {
-  return await page.evaluate(() => {
-    function getDd(label) {
-      const dts = Array.from(document.querySelectorAll('dt'));
-      for (const dt of dts) {
-        if (dt.textContent.trim().toLowerCase() === label.toLowerCase()) {
-          const dd = dt.nextElementSibling;
-          if (dd && dd.tagName.toLowerCase() === 'dd') {
-            return dd.textContent.trim();
-          }
-        }
-      }
-      return '';
-    }
-
-    // 車両仕様情報（<dt>/<dd> の組み合わせ）を取得
-    return {
-      first_registration: getDd('First registration'),
-      mileage: getDd('Mileage'),
-      power: getDd('Power'),
-      cubic_capacity: getDd('Cubic capacity'),
-      fuel: getDd('Fuel'),
-      transmission: getDd('Transmission'),
-      drive_type: getDd('Drive type'),
-      colour: getDd('Colour'),
-      number_of_seats: getDd('Number of seats'),
-      door_count: getDd('Door count'),
-      weight: getDd('Weight'),
-      cylinders: getDd('Cylinders'),
-      tank_capacity: getDd('Tank capacity')
-    };
-  });
 }
 
 (async () => {
@@ -107,7 +72,7 @@ async function extractCarDetails(page) {
   // ブラウザ起動（セッション情報を保持）
   const browser = await chromium.launchPersistentContext(sessionDir, {
     channel: "chrome",
-    headless: false,
+    headless: true,
     viewport: null
   });
 
@@ -115,17 +80,27 @@ async function extractCarDetails(page) {
   for (const car of carList.slice(0, 1)) {
     const detailPage = await browser.newPage();
     try {
+      console.log(`\n🚗 Processing: ${car.car_name}`);
+      console.log(`📍 URL: ${car.detail_url}`);
+      
+      console.log('📄 Navigating to page...');
       await detailPage.goto(car.detail_url, {waitUntil: 'domcontentloaded' });
+      console.log('✅ Page loaded');
+      
       // wait 2-5 seconds
       await sleep(2000 + Math.random() * 3000);
+      console.log('⏱️  Wait completed');
 
       // GDPRバナー処理（初回アクセス時のみ必要、セッション保存により再利用）
-      // await handleConsentModal(detailPage);
+      console.log('🍪 Checking for consent modal...');
+      await handleConsentModal(detailPage);
 
       // 車の詳細情報を抽出
+      console.log('🔍 Starting data extraction...');
       const details = await extractCarDetails(detailPage);
       const results = { ...car, ...details };
 
+      console.log('\n📋 Final results:');
       console.log(results)
 
     } catch (e) {
@@ -137,10 +112,10 @@ async function extractCarDetails(page) {
       }
     }
     finally {
-      // await detailPage.close();
+      await detailPage.close();
     }
   }
-  // await browser.close();
+  await browser.close();
 }
 
 
